@@ -1,0 +1,9 @@
+Esta parte del proyecto debe incluir las estructuras y funciones
+para manejar un conjunto.
+
+El usuario podra utilizar las funciones de acuerdo al uso que quiera
+darle al conjunto.
+
+Muchas las funciones se basan en el diseño de las colecciones de Java
+
+
