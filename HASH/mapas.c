@@ -6,13 +6,15 @@
  *        sistemas de mapas de java en C, las funciones estan formuladas para uso general y el 
  *        listado de abajo determina que accion realiza cada una:
  *
- *        -limpia:        Limpia el buffer
+ *        -limpia:        Limpia el buffer.
+ *        -ascii:         Calcula el valor ascii de una cadena de caracteres.
  *        -equals:        Compara el contenido de 2 mapas, si estos son iguales se regresa un 
  *                        0, de  lo contrario, regresa un 1.
  *        -keySet:        Regresa un arreglo que contiene las llaves del mapa que se le ingreso 
  *                        a la funcion.
- *        -put:           Ingresa un elemento nuevo a un mapa ingresado a la funcion.
- *        -remove:        Elimina un elemento de un mapa ingresado a la funcion  buscandolo por
+ *        -put:           Ingresa un elemento nuevo a un mapa ingresado a la funcion y regresa
+ *                        el contenido del elemento nuevo
+ *        -remove_entry:  Elimina un elemento de un mapa ingresado a la funcion  buscandolo por
  *                        su llave y regresa el contenido de este elemento.
  *        -collection:    Regresa el nodo raiz de una lista encadenada simple que contiene los 
  *                        elementos del mapa ingresado a la funcion.
@@ -52,33 +54,37 @@
 
 typedef struct mapa  //ESTRUCTURA PARA CONTENIDO DE MAPA
 {
-	int LLAVE;
+	char LLAVE[30];
 	char CONTENIDO[30];
 	struct mapa *sig;
 }MAPA;
 
 //FUNCIONES GENERALES DEL PROGRAMA
 void limpia(void);
+int ascii(char llave[]);
 
 //FUNCIONES DESARROLLADAS POR LUIS VIZCAINO
-int equals(MAPA *mapa1[], MAPA *mapa2[]);
-void keySet(MAPA *mapa[], char *set[]);
-char *put(MAPA *mapa[], char contenido[], char llave[]);
-char *remove(MAPA *mapa[], char llave[]);
-void collection(MAPA *m[], MAPA *raiz);
+int equals(MAPA *mapa1[], MAPA *mapa2[]); 
+void keySet(MAPA *mapa[], char *set[]);  
+char *put(MAPA *mapa[], char contenido[], char llave[]);  
+char *remove_entry(MAPA *mapa[], char llave[]);  
+void collection(MAPA *m[], MAPA *raiz);  
 
 // FUNCIONES DESARROLLADAS POR LAEL
-int containsValue(MAPA *mapa[],char contenido[]);
-void entrySet(MAPA *mapa[], char *set[]);
-int hashCode(MAPA *mapa[]);
-int isEmpty(MAPA *mapa[]);
-void putAll(MAPA *mapa1[], MAPA *mapa2[]);
+int containsValue(MAPA *mapa[],char contenido[]);  
+void entrySet(MAPA *mapa[], char *set[]);  
+int hashCode(MAPA *mapa[]);  
+int isEmpty(MAPA *mapa[]);  
+void putAll(MAPA *mapa1[], MAPA *mapa2[]);  
 
 //FUNCIONES DESARROLLADAS POR JOSE
-void clear(MAPA *mapa[]);
-int containsKey(MAPA *mapa[], char llave[]);
+void clear(MAPA *mapa[]);  
+int containsKey(MAPA *mapa[], char llave[]);  
 char *get(MAPA *mapa[], char llave[]);
-int size(MAPA *mapa[]);
+int size(MAPA *mapa[]);  
+
+//================================================================================================|||||||||||||||||||||||||||
+//FUNCIONES GENERALES DEL PROGRAMA
 
 /**
  *================================================================================
@@ -93,3 +99,83 @@ void limpia(void)
   	while((c=getchar())!='\n');  //LIMPIA EL BUFFER
   	return;
 }
+
+int ascii(char llave[])
+{
+	int count, z, valor;
+	count = strlen(llave);
+	for(z=0; z<count; z++)
+	{
+  		valor = valor + llave[z];
+ 	}
+ 	return(valor);
+}
+
+//================================================================================================|||||||||||||||||||||||||||
+//FUNCIONES DESARROLLADAS POR LUIS VIZCAINO
+
+int equals(MAPA *mapa1[], MAPA *mapa2[])
+{
+	return;
+}
+void keySet(MAPA *mapa[], char *set[])
+{
+	return;
+}
+char *put(MAPA *mapa[], char contenido[], char llave[])
+{
+	return;
+}
+char *remove_entry(MAPA *mapa[], char llave[])
+{
+	return;
+}
+void collection(MAPA *m[], MAPA *raiz)
+{
+	return;
+}
+
+//================================================================================================|||||||||||||||||||||||||||
+// FUNCIONES DESARROLLADAS POR LAEL
+
+int containsValue(MAPA *mapa[],char contenido[])
+{
+	return;
+}  
+void entrySet(MAPA *mapa[], char *set[])
+{
+	return;
+}  
+int hashCode(MAPA *mapa[])
+{
+	return;
+}
+int isEmpty(MAPA *mapa[])
+{
+	return;
+}  
+void putAll(MAPA *mapa1[], MAPA *mapa2[])
+{
+	return;
+}
+//================================================================================================|||||||||||||||||||||||||||
+//FUNCIONES DESARROLLADAS POR JOSE
+
+void clear(MAPA *mapa[])
+{
+	return;
+}  
+int containsKey(MAPA *mapa[], char llave[])
+{
+	return;
+}  
+char *get(MAPA *mapa[], char llave[])
+{
+	return;
+}
+int size(MAPA *mapa[])
+{
+	return;
+}  
+
+//================================================================================================|||||||||||||||||||||||||||
