@@ -62,15 +62,16 @@ typedef struct mapa  //ESTRUCTURA PARA CONTENIDO DE MAPA
 //FUNCIONES GENERALES DEL PROGRAMA
 void limpia(void);
 int ascii(char llave[]);
+void verificar(MAPA *nodo, MAPA *mapa[]);
 
 //FUNCIONES DESARROLLADAS POR LUIS VIZCAINO
 int equals(MAPA *mapa1[], MAPA *mapa2[]); 
 void keySet(MAPA *mapa[], char *set[]);  
 char *put(MAPA *mapa[], char contenido[], char llave[]);  
 char *remove_entry(MAPA *mapa[], char llave[]);  
-void collection(MAPA *m[], MAPA *raiz);  
+void collection(MAPA *mapa[], MAPA **raiz);  
 
-// FUNCIONES DESARROLLADAS POR LAEL
+// FUNCIONES DESARROLLADAS POR LAEL VILLAR
 int containsValue(MAPA *mapa[],char contenido[]);  
 void entrySet(MAPA *mapa[], char *set[]);  
 int hashCode(MAPA *mapa[]);  
@@ -111,6 +112,41 @@ int ascii(char llave[])
  	return(valor);
 }
 
+void verificar(MAPA *nodo, MAPA *mapa[])
+{
+	MAPA *aux;
+	int j;
+	for(j=0;j<T;j++) //RECORRIDO DE TABLA HASH
+	{
+		aux = mapa[j];
+		if(mapa[j] != NULL)
+		{
+			if(strcmp(aux->LLAVE,nodo->LLAVE) == 0)  //VERIFICACION DE LA LLAVE
+			{
+				printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
+				printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
+				strcpy(aux->CONTENIDO,nodo->CONTENIDO);
+				return;
+			}
+			if(aux->sig != NULL)
+			{
+				while(aux->sig != NULL)  //CICLO RECURSIVO
+				{
+					aux = aux->sig;
+					if(strcmp(aux->LLAVE,nodo->LLAVE) == 0)
+					{
+						printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
+						printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
+						strcpy(aux->CONTENIDO,nodo->CONTENIDO);
+						return;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
+
 //================================================================================================|||||||||||||||||||||||||||
 //FUNCIONES DESARROLLADAS POR LUIS VIZCAINO
 
@@ -124,14 +160,182 @@ void keySet(MAPA *mapa[], char *set[])
 }
 char *put(MAPA *mapa[], char contenido[], char llave[])
 {
-	return;
+	MAPA *nodo, *aux, *aux2, *aux3;
+	int i, hash, valor, comp;
+	char *res;
+	nodo = malloc(sizeof(MAPA));
+	strcpy(nodo->CONTENIDO,contenido);
+	strcpy(nodo->LLAVE,llave);
+	res = nodo->CONTENIDO;
+	verificar(nodo,mapa);
+	valor = ascii(llave);
+	hash = valor%T;
+	aux = mapa[hash];
+	if(mapa[hash] == NULL)
+	{
+		mapa[hash] = nodo;
+		nodo->sig = NULL;
+		return (res);
+	}
+	else if(mapa[hash] != NULL)
+	{
+		comp = strcmp(aux->CONTENIDO,nodo->CONTENIDO);
+		if(comp == 0)
+		{
+			mapa[hash] = nodo;
+			nodo->sig = aux;
+			return (res);
+		}
+		else if(comp < 0)
+		{
+			mapa[hash] = nodo;
+			nodo->sig = aux;
+			return(res);
+		}
+		if(comp > 0)
+		{
+			while(aux->sig != NULL)
+			{
+				aux2 = aux;
+				aux = aux->sig;
+				comp = strcmp(aux->CONTENIDO,nodo->CONTENIDO);
+				if(comp == 0)
+				{
+					aux2->sig = nodo;
+					nodo->sig = aux;
+					return (res);
+				}
+				if(comp < 0)
+				{
+					aux2->sig = nodo;
+					nodo->sig = aux;
+					return (res);					
+				}
+				if(aux->sig == NULL)
+				{
+					aux->sig = nodo;
+					nodo->sig = NULL;
+					return (res);
+				}
+			}
+		}
+	}
 }
 char *remove_entry(MAPA *mapa[], char llave[])
 {
-	return;
+	MAPA *nodo, *aux;
+	char contenido[30], *res, nocontenido[5] = {"NULL"}, sicontenido[30];
+	int hash, valor;
+
+	valor = ascii(llave);
+	hash = valor%T;
+	if(mapa[hash] != NULL)
+	{
+		nodo = malloc(sizeof(MAPA));
+		nodo = mapa[hash];
+		aux = nodo;
+		if(strcmp(nodo->LLAVE,llave) == 0)
+		{
+			if(aux->sig == NULL)
+			{
+				strcpy(sicontenido,nodo->CONTENIDO);
+				res = sicontenido;
+				free(nodo);
+				mapa[hash] = NULL;
+			}
+			else
+			{
+				strcpy(sicontenido,nodo->CONTENIDO);
+				res = sicontenido;
+				mapa[hash] = nodo->sig;
+				free(nodo);
+			}
+		}
+		else if(aux->sig != NULL)
+		{
+			nodo = nodo->sig;
+			if(strcmp(nodo->LLAVE,llave) == 0)
+			{
+				if(nodo->sig == NULL)
+				{
+					strcpy(sicontenido,nodo->CONTENIDO);
+					res = sicontenido;
+					free(nodo);
+					aux->sig = NULL;
+				}
+				else
+				{
+					strcpy(sicontenido,nodo->CONTENIDO);
+					res = sicontenido;
+					aux->sig = nodo->sig;
+					free(nodo);	
+				}
+			}
+		}
+	}
+	else
+	{
+		res = nocontenido;
+		return(res);
+	}
+	return(res);
 }
-void collection(MAPA *m[], MAPA *raiz)
+void collection(MAPA *mapa[], MAPA **raiz)
 {
+	MAPA *nodo, *aux, *aux2;
+	int i, bandera = 0;
+	for(i=0; i<T; i++)
+	{
+		aux = mapa[i];
+		if(mapa[i] != NULL)
+		{
+			nodo = malloc(sizeof(MAPA));
+			if(bandera == 0)
+			{
+				*raiz = nodo;
+				aux2 = nodo;
+				strcpy(nodo->LLAVE,aux->LLAVE);
+				strcpy(nodo->CONTENIDO,aux->CONTENIDO);
+				nodo->sig = NULL;
+				bandera = 1;
+				if(aux->sig != NULL)
+				{
+					while(aux->sig != NULL)
+					{
+						aux = aux->sig;
+						nodo = malloc(sizeof(MAPA));
+						aux2->sig = nodo;
+						aux2 = nodo;
+						strcpy(nodo->LLAVE,aux->LLAVE);
+						strcpy(nodo->CONTENIDO,aux->CONTENIDO);
+						nodo->sig = NULL;
+					}
+				}
+			}
+			else
+			{
+				aux2->sig = nodo;
+				aux2 = nodo;
+				strcpy(nodo->LLAVE,aux->LLAVE);
+				strcpy(nodo->CONTENIDO,aux->CONTENIDO);
+				nodo->sig = NULL;
+				if(aux->sig != NULL)
+				{
+					while(aux->sig != NULL)
+					{
+						aux = aux->sig;
+						nodo = malloc(sizeof(MAPA));
+						aux2->sig = nodo;
+						aux2 = nodo;
+						strcpy(nodo->LLAVE,aux->LLAVE);
+						strcpy(nodo->CONTENIDO,aux->CONTENIDO);
+						nodo->sig = NULL;
+					}
+				}
+			}
+
+		}
+	}
 	return;
 }
 
