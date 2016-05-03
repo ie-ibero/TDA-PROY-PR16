@@ -1,6 +1,6 @@
 /*@file  cambioNodo.c
 *
-*@brief Este modulo contine la funcion de cambioNodo. Es un nodo temporal para
+*@brief Este modulo contiene la funcion de cambioNodo. Es un nodo temporal para
 *		recorrer arbol y eliminar posteriormente el nodo, cambiandolo por el mayor
 *		de los menores nodos.
 *
