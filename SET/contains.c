@@ -31,11 +31,11 @@ int contains(arbol *ptr, int elemento) {
 
 	//Si existe elemento en el arbol, verifica en que rama
   	else if (ptr->idArbol < elemento) {
-      printf("Derecha: %d\n", ptr->idArbol);
+      //printf("Derecha: %d\n", ptr->idArbol);
   		return contains(ptr->derecha, elemento);
   	}
   	else if (ptr->idArbol > elemento) {
-      printf("Izquierda: %d\n", ptr->idArbol);
+     // printf("Izquierda: %d\n", ptr->idArbol);
   		return contains(ptr->izquierda, elemento);
   	}
   	else {
