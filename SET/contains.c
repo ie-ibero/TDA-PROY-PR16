@@ -1,6 +1,6 @@
 /*@file  contains.c
 *
-*@brief Este modulo contine la funcion de contains. Muestra si los elementos
+*@brief Este modulo contiene la funcion de contains. Muestra si los elementos
 * 		pertenecen al conjunto. Recorre el array hasta encontrarlo. Devuelve
 *		true si se encuentra o false si no. Recibe valores del puntero y 
 *		elemento numerico.
