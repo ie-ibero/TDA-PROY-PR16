@@ -12,8 +12,8 @@
 /**
 *@brief     Esta funcion ejecuta el proceso de contains.
 *
-*@return    boolean TRUE : Devuelve valor verdadero si existe elemento en arbol.
-*           boolean FALSE : Devuelve valor falso si no existe elemento en arbol.
+*@return    boolean TRUE : Devuelve valor verdadero si existe elemento en el arbol.
+*           boolean FALSE : Devuelve valor falso si no existe elemento en el arbol.
 *
 *@autor     Avila Cortes Karina
 */
