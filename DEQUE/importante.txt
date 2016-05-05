@@ -1,0 +1,12 @@
+Esta parte del proyecto debe incluir las estructuras y funciones
+para manejar una lista doblemente encadenada.
+
+Se deben considerar los elementos para el manejo de una lista 
+LIFO y FIFO.
+
+El usuario podra utilizar las funciones de acuerdo al uso que quiera
+darle a la lista.
+
+Muchas las funciones se basan en el diseño de las colecciones de Java
+
+
