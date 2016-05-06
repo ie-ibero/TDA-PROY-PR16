@@ -1,4 +1,32 @@
+/**
+*================================================================================
+*@file   mapas2.c
+*
+*@brief  Este modulo contiene parte de las funciones correspondientes al 
+*        funcionamiento de mapas en C, aqui podran econtrar la documentacion 
+*        individual asi como el codigo de las siguientes funciones:
+*
+*        containsValue, entrySet, hashCode, isEmpty putAll.
+*
+*@author 
+*================================================================================
+*/
+
+#include "bibliotecas.h"
+
+//FUNCIONES GENERALES DEL PROGRAMA
+extern void limpia(void);
+extern int ascii(char llave[]);
+
 // FUNCIONES DESARROLLADAS POR LAEL
+int containsValue(MAPA *mapa[],char contenido[]);  
+void entrySet(MAPA *mapa[], MAPA **raiz);  
+int hashCode(MAPA *mapa[]);  
+int isEmpty(MAPA *mapa[]);  
+void putAll(MAPA *mapa1[], MAPA *mapa2[]);  
+
+//================================================================================================|||||||||||||||||||||||||||
+//FUNCIONES DESARROLLADAS POR LAEL
 
 /**
  *===============================================================================
@@ -6,115 +34,121 @@
  *           por el usuario todos los registros de los mapas o tambien los 
  *           actualiza.
  *
- *@entradas  DATOS *m[]: Arreglo de apuntadores para direccion de la tabla hash.
+ *@entradas  MAPA *m[]: Mapa donde el nuevo elemento sera ingresado.   
+ *           char contenido[]: Contenido del elemento nuevo.
  *
- *@salidas   Guarda todos los registros en un archivo binario.
+ *@salidas   0: Valor verdadero, si encontro el cotenido a buscar
+ *           1: Valor falso, si no encontro el contenido a buscar
  *
- *@variables *nodo: Apuntador a la estructura especificada del tipo determinado
- *                  ubicada en "bibliotecas.h".  
- *           *aux: Apuntador secundario de soporte al apuntador "*nodo".
+ *@variables *nodo: Apuntador a estructura del mapa.  
+ *           *aux:  Apuntador de soporte para "*nodo"
  *           i: Contador de FOR.
- *           j: Contador de registros encontrados.
- *           hash: Valor asignado de la tabla hash.
- *           clave: Valor que tiene un registro dentro de la tabla hash.
- *           valor: Dato especificado a buscar.
  *
  *@autor     Leonardo Lael Villar Benitez
  *===============================================================================
  */
 int containsValue(MAPA *mapa[],char contenido[])
 {
-DATOS *nodo,*aux;
-	char valor[30];
-	int i,j=0;
-	system("clear");
-	limpia();
-	printf("\n\tVALOR A BUSCAR: ");
-	gets(valor);
-	for(i=0;i<T;i++)
+	MAPA *nodo, *aux;
+	int i;
+	for(i=0; i<T; i++)  //RECORRIDO DEL MAPA
 	{
-		if(m[i] != NULL)
+		if(mapa[i] != NULL)  //SI EXITEN ENTRADAS
 		{
-			nodo = m[i];
+			nodo = mapa[i];
 			aux = nodo;
-			if(strcmp(valor,aux->DATO) == 0)
+			if(strcmp(contenido,nodo->CONTENIDO) == 0) //COMPARACION CON EL CONTENIDO A BUSCAR
 			{
-				j++;
+				return 0;
 			}
-			if(aux->sig != NULL)
+			if(aux->sig != NULL)  //SI TIENE NODOS ENCADENADOS...
 			{
 				while(aux->sig != NULL)
 				{
 					aux = aux->sig;
-					if(strcmp(valor,aux->DATO) == 0)
+					if(strcmp(contenido,aux->CONTENIDO) == 0)  //COMPARACION CON EL CONTENIDO A BUSCAR
 					{
-						j++;
+						return 0;
 					}
 				}
 			}
 		}
 	}
-	printf("\n\tTotal de llaves encontradas : %d\n",j);
-	printf("\n\tPRESIONE \"ENTER\" PARA REGRESAR.");
-	getchar();
-	return;
-}
-
-
+	return 1;  //SI NO ENCONTRO EL CONTENIDO A BUSCAR
+} 
+ 
 /**
  *===============================================================================
  *@brief     Esta funcion despliega en forma de lista todos los elementos
  *           registrados dentro del mapa, mostrando sus llaves, contenidos y su
  *           valor de la tabla hash.
  *
- *@entradas  DATOS *m[]: Arreglo de apuntadores para direccion de la tabla hash.
+ *@entradas  MAPA *m[]:  Mapa donde el nuevo elemento sera ingresado
+ *           MAPA **raiz:  Apuntador al inicio de la lista encadenada..
  *
- *@salidas   Muestra los datos registrados dentro del mapa.
- *
- *@variables *nodo: Apuntador a la estructura especificada del tipo determinado
- *                  ubicada en "bibliotecas.h".  
- *           *aux: Apuntador secundario de soporte al apuntador "*nodo".
+ *@variables *nodo: Apuntador a estructura del mapa.
+ *           *aux:  Apuntador de soporte para "*nodo"
+ *           *aux2:   Apuntador de soporte para "*nodo"
  *           i: Contador de FOR.
- *           hash: Valor asignado de la tabla hash.
+ *           bandera: Indicador de primer elemento.
  *
  *@autor     Leonardo Lael Villar Benitez
  *===============================================================================
  */
 void entrySet(MAPA *mapa[], MAPA **raiz)
 {
-DATOS *nodo,*aux;
-	int i, hash;
-	system("clear");
-	nodo = malloc(sizeof(DATOS));
-	printf("\n\t===== LISTA DE REGISTROS =====\n");
-	for(i=0;i<T;i++)  //RECORRIDO DE LA TABLA HASH
+	MAPA *nodo, *aux, *aux2;
+	int i, bandera = 0;
+	for(i=0; i<T; i++)  //RECORRIDO DE TABLA HASH
 	{
-		if(m[i] != NULL)  //RECORRIDO DE LOS REGISTROS DE MAPAS
-		{  //DESPLIEGE DE INFORMACION
-			nodo = m[i];
-			aux = nodo;
-			hash = nodo->KEY%T;
-			printf("\n\tLlave: %d",nodo->KEY);
-			printf("\n\tDato: %s",nodo->DATO);
-			printf("\n\tHash-code: %d\n",hash);
-			if(aux->sig != NULL)
+		aux = mapa[i];
+		if(mapa[i] != NULL)  //ENTRADA A ELEMENTOS DE LA TABLA
+		{
+			nodo = malloc(sizeof(MAPA));
+			if(bandera == 0)  //IDENTIFICACION DE PRIMER ELEMENTO DE LA LISTA
 			{
-				while(aux->sig != NULL)
+				*raiz = nodo;
+				aux2 = nodo;
+				strcpy(nodo->CONTENIDO,aux->CONTENIDO);  //COPIAR CONTENIDO DEL PRIMER ELEMENTO
+				nodo->sig = NULL;
+				bandera = 1;
+				if(aux->sig != NULL)
 				{
-					aux = aux->sig;
-					printf("\n\tLlave: %d",aux->KEY);
-					printf("\n\tDato: %s",aux->DATO);
-					printf("\n\tHash-code: %d\n",hash);
+					while(aux->sig != NULL)  //SI EL PRIMER ELEMENTO TIENE NODOS ENCADENADOS...
+					{
+						aux = aux->sig;
+						nodo = malloc(sizeof(MAPA));  
+						aux2->sig = nodo;
+						aux2 = nodo;
+						strcpy(nodo->CONTENIDO,aux->CONTENIDO);  //COPIAR CONTENIDO DE ELEMENTO
+						nodo->sig = NULL;
+					}
 				}
 			}
+			else  //RECORRIDO DE ELEMENTOS QUE NO SEAN EL PRIMERO
+			{
+				aux2->sig = nodo;
+				aux2 = nodo;
+				strcpy(nodo->CONTENIDO,aux->CONTENIDO);  //COPIAR CONTENIDO DE ELEMENTO
+				nodo->sig = NULL;
+				if(aux->sig != NULL)  //SI EL ELEMENTO TIENE NODOS ENCADENADOS...
+				{
+					while(aux->sig != NULL)
+					{
+						aux = aux->sig;
+						nodo = malloc(sizeof(MAPA));
+						aux2->sig = nodo;
+						aux2 = nodo;
+						strcpy(nodo->CONTENIDO,aux->CONTENIDO);  //COPIAR CONTENIDO DE ELEMENTO
+						nodo->sig = NULL;
+					}
+				}
+			}
+
 		}
 	}
-	limpia();
-	printf("\n\tPRESIONE \"ENTER\" PARA REGRESAR.");
-	getchar();
-	return;
-}
-
+	return;	
+}  
 
 /**
  *===============================================================================
@@ -122,15 +156,15 @@ DATOS *nodo,*aux;
  *           sumando el valor hash de cada uno de los registros que se encuentran
  *           dentro del mapa y luego calculado el valor hash de dicha sumatoria. 
  *
- *@entradas  DATOS *m[]: Arreglo de apuntadores para direccion de la tabla hash.
+ *@entradas  MAPA *m[]: Mapa donde el nuevo elemento sera ingresado
  *
- *@salidas   Regresa el codigo hash del mapa actual.
+ *@salidas   totalhash: El valor hash de la funcion
  *
- *@variables *nodo: Apuntador a la estructura especificada del tipo determinado
- *                  ubicada en "bibliotecas.h".  
- *           *aux: Apuntador secundario de soporte al apuntador "*nodo".
- *           hash: Valor asignado de la tabla hash.
- *           totalhash: Sumatoria de los valores hash de los registros.
+ *@variables *nodo: Apuntador a estructura del mapa.  
+ *           *aux:  Apuntador de soporte para "*nodo"
+ *           hash: Guarda el valor hash de la llave
+ *           valor: Guarda el valor ascii de la llave
+ *           llave[]: Guarda la llave del elemento
  *           i: Contador de FOR.
  *
  *@autor     Leonardo Lael Villar Benitez
@@ -138,95 +172,68 @@ DATOS *nodo,*aux;
  */
 int hashCode(MAPA *mapa[])
 {
-DATOS *nodo,*aux;
-	int hash, totalhash=0,i;
-	for(i=0;i<T;i++)  //RECORRIDO DE LA TABLA HASH
+	MAPA *nodo, *aux;
+	int totalhash=0, valor, hash, i;
+	char llave[30];
+	for(i=0; i<T; i++)  //RECORRIDO DEL MAPA
 	{
-		if(m[i] != NULL) //RECORRIDO DE LOS REGISTROS
+		if(mapa[i] != NULL)  //RECORRIDO DE LOS REGISTROS
 		{
-			nodo = m[i];
+			nodo = mapa[i];
 			aux = nodo;
-			hash = nodo->KEY%T;
+			strcpy(llave,nodo->LLAVE); //OBTENER LLAVE DE ELEMENTO
+			valor = ascii(llave);  //CALCULO DE VALOR ASCII DE LLAVE
+			hash = valor%T;  //CALCULO DE VALOR HASH DE LLAVE
 			totalhash = totalhash + hash;  //SUMATORIA DE VALORES HASH
 			if(aux->sig != NULL)
 			{
 				while(aux->sig != NULL)
 				{
 					aux = aux->sig;
-					hash = aux->KEY%T;
+					strcpy(llave,nodo->LLAVE);  //OBTENER LLAVE DE ELEMENTO
+					valor = ascii(llave);  //CALCULO DE VALOR ASCII DE LLAVE
+					hash = valor%T;  //CALCULO DE VALOR HASH DE LLAVE
 					totalhash = totalhash + hash;  //SUMATORIA DE VALORES HASH
 				}
-
 			}
 		}
 	}
 	totalhash = totalhash%T;  //CALCULO DE VALOR HASH DEL MAPA
-	system("clear");
-	printf("\n\n\tCODIGO DEL MAPA: %d",totalhash);
-	limpia();
-	printf("\n\tPRESIONE \"ENTER\" PARA REGRESAR.");
-	getchar();
-	return;
-}
-
+	return (totalhash);
+}  
 
 /**
  *===============================================================================
  *@brief     Esta funcion muestra si el mapa tiene registros dentro de el o 
  *           esta completamente vacio.
  *
- *@entradas  DATOS *m[]: Arreglo de apuntadores para direccion de la tabla hash.
+ *@entradas  MAPA *m[]: Mapa donde el nuevo elemento sera ingresado
  *
- *@salidas   Muestra si el mapa esta vacio o no.
+ *@salidas   0: Valor verdadero, si el mapa tiene contenido
+ *           1: Valor falso, si el mapa esta vacio
  *
- *@variables *nodo: Apuntador a la estructura especificada del tipo determinado
- *                  ubicada en "bibliotecas.h".  
- *           *aux: Apuntador secundario de soporte al apuntador "*nodo".
- *           i: Contador de FOR.
- *           j: Contador de registros.
+ *@variables i: Contador de FOR.
  *
  *@autor     Leonardo Lael Villar Benitez
  *===============================================================================
  */
 int isEmpty(MAPA *mapa[])
 {
-DATOS *nodo,*aux;
-	int i,j;
-	system("clear");
-	nodo = malloc(sizeof(DATOS));
-	for(i=0;i<T;i++)  //RECORRIDO DE LA TABLA HASH
+	int i;
+	for(i=0; i<T; i++)  //RECORRIDO DEL MAPA
 	{
-		if(m[i] != NULL)  //RECORRIDO DE LOS REGISTROS DE MAPAS
-		{  //DESPLIEGE DE INFORMACION
-			nodo = m[i];
-			aux = nodo;
-			j++;  //CONTEO DE LLAVES
-			if(aux->sig != NULL)
-			{
-				while(aux->sig != NULL)
-				{
-					aux = aux->sig;
-					j++; //CONTEO DE LLAVES
-				}
-			}
+		if(mapa[i] != NULL)  //ENTRADA DE REGISTROS
+		{
+			return 1;			
 		}
 	}
-	if(j == 0)
-	{
-		printf("\n\tEste mapa esta vacio...\n");
-	}
-	else
-	{
-		printf("\n\tEl mapa contiene %d elementos registrados.\n",j);
-	}
-	limpia();
-	printf("\n\tPRESIONE \"ENTER\" PARA REGRESAR.");
-	getchar();
-	return;
-}
+	return 0;
+}  
 
 
 void putAll(MAPA *mapa1[], MAPA *mapa2[])
 {
 	return;
-}
+} 
+
+//================================================================================================|||||||||||||||||||||||||||
