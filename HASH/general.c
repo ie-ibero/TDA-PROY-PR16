@@ -4,7 +4,7 @@
 //FUNCIONES GENERALES DEL PROGRAMA
 void limpia(void);
 int ascii(char llave[]);
-void verificar(MAPA *nodo, MAPA *mapa[]);
+int verificar(MAPA *nodo, MAPA *mapa[]);
 
 //================================================================================================|||||||||||||||||||||||||||
 //FUNCIONES GENERALES DEL PROGRAMA
@@ -52,14 +52,18 @@ int ascii(char llave[])
 
 /**
  *================================================================================
- *@brief     Este procedimiento sirve como apoyo para la funcion "put", esta
+ *@brief     Esta funcion sirve como apoyo para la funcion "put", esta
  *           verifica que la llave ingresada para valor de nuevo elemento de un
  *           mapa sea unica, y en el caso de que sea repetida, sustiuye el valor
- *           previo del elemento por el nuevo ingresado.
+ *           previo del elemento por el nuevo ingresado. Asi tambien regresa
+ *           0 si ya estaba repetida la llave y 1 si el valor era unico.
  *
  *@entradas  MAPA *nodo:   Elemento nuevo a ser comparado contra el resto de los 
  *                         elementos.
  *           MAPA *mapa[]: Mapa donde el nuevo elemento sera ingresado.   
+ *
+ *@salidas   0: Valor verdadero, el elemento a verificar tiene llave repetida
+ *           1: Valor falso, el elemento a verificar es unico.
  *
  *@variables *aux: Apuntador a la tabla hash para realizar el recorrido y la
  *                 comparacion.
@@ -67,7 +71,7 @@ int ascii(char llave[])
  *@author    Luis Armando Vizcaino Magdaleno
   *===============================================================================
  */
-void verificar(MAPA *nodo, MAPA *mapa[])
+int verificar(MAPA *nodo, MAPA *mapa[])
 {
 	MAPA *aux;
 	int j;
@@ -81,7 +85,7 @@ void verificar(MAPA *nodo, MAPA *mapa[])
 				printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
 				printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
 				strcpy(aux->CONTENIDO,nodo->CONTENIDO);
-				return;
+				return 0;
 			}
 			if(aux->sig != NULL)
 			{
@@ -93,13 +97,15 @@ void verificar(MAPA *nodo, MAPA *mapa[])
 						printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
 						printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
 						strcpy(aux->CONTENIDO,nodo->CONTENIDO);
-						return;
+						return 0;
 					}
 				}
 			}
 		}
 	}
-	return;
+	return 1;
 }
+
+
 
 //================================================================================================|||||||||||||||||||||||||||
