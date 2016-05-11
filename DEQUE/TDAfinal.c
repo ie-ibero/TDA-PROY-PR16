@@ -14,8 +14,7 @@ typedef struct Def_Lista tLista;
 typedef struct Def_Lista *ptrLista;
 
 
-void Add_LIFO(ptrLista *Inicio, int Numero);
-void Add_FIFO(ptrLista *Inicio, int Numero);
+void Add(ptrLista *Inicio, int Numero);
 void Pop_LIFO(ptrLista *Inicio);
 void Pop_FIFO(ptrLista *Inicio);
 void Show(ptrLista Inicio);
@@ -35,25 +34,21 @@ int main(void)
   int Numero, Tipo, Opcion, Tamano, Vacio, Existe, *Cadena, i, Posicion; 
   ptrLista Inicio = NULL;
 
-  printf("Tipo de Lista deseada\n\tLIFO : 1\n\tFIFO : 2\nOpcion deseada:\n");
-  scanf("%i", &Tipo);
-
   do
   {
     system("clear");
     Menu();
-    scanf("%i",&Opcion);
+    scanf("%i", &Opcion);
     switch(Opcion)
     {
     case 1:
       printf("Agregar Numero: ");
       scanf("%i", &Numero);
-      if(Tipo == 1)
-        Add_LIFO(&Inicio,Numero);
-      else
-        Add_FIFO(&Inicio,Numero);
+        Add(&Inicio,Numero);
     break;
     case 2:
+      printf("Tipo de Pop\n\tLIFO : 1\n\tFIFO : 2\nOpcion deseada:\n");
+      scanf("%i", &Tipo);
       if(Tipo == 1)
         Pop_LIFO(&Inicio);
       else
@@ -61,6 +56,7 @@ int main(void)
     break;
     case 3:
         Show(Inicio);
+        getchar();
     break;
     case 4:
         Clear(&Inicio);
@@ -71,7 +67,7 @@ int main(void)
     break;
     case 6:
       Vacio = Empty(Inicio);
-      if (Vacio = 1)
+      if (Vacio == 1)
         printf("Si esta vacio\n");
       else
         printf("No esta vacio\n");
@@ -80,7 +76,7 @@ int main(void)
       printf("Buscar Numero: ");
       scanf("%i", &Numero);
       Existe = Contains(Inicio,Numero);
-      if (Existe = 1)
+      if (Existe == 1)
         printf("Si esta existe\n");
       else
         printf("No esta existe\n");
@@ -113,6 +109,8 @@ int main(void)
       Add2(&Inicio,Posicion,Numero);
     break;
     }  
+    getchar();
+    getchar();
   }
   while(Opcion != 0);
   Clear(&Inicio);
@@ -136,7 +134,7 @@ void Menu()
 }
 
 
-void Add_LIFO(ptrLista *Inicio, int Numero)
+void Add(ptrLista *Inicio, int Numero)
 {
   ptrLista Nuevo, Fin=*Inicio;
  
@@ -155,32 +153,27 @@ void Add_LIFO(ptrLista *Inicio, int Numero)
       while (Fin->Sig != NULL)
     	  Fin = Fin->Sig;
       Fin->Sig = Nuevo;
+      Nuevo->Ant= Fin;
     }
 }
 
 
-void Add_FIFO(ptrLista *Inicio, int Numero)
-{
-  ptrLista Nuevo, Reserva=*Inicio;
-  Nuevo = (ptrLista)malloc(sizeof(tLista));
-  Nuevo->NUM = Numero;
-
-  if(*Inicio == NULL)
-    {
-      *Inicio = Nuevo;
-      Nuevo->Ant = NULL;
-      Nuevo->Sig = NULL;
-    }
-  else
-    {
-      Nuevo->Sig=*Inicio;
-      Nuevo->Ant = NULL;
-      Reserva->Ant = Nuevo;
-      *Inicio = Nuevo;
-    }
-}
 
 void Pop_LIFO(ptrLista *Inicio)
+{
+   ptrLista Borrame, Nuevo=*Inicio,Fin=*Inicio;
+   
+   while(Fin->Sig != NULL)
+      Fin = Fin->Sig;
+   while((Nuevo->Sig)->Sig != NULL)
+      Nuevo = Nuevo->Sig;
+
+   Nuevo->Sig = NULL;
+   Borrame = Fin;
+   free(Borrame);   
+}
+
+void Pop_FIFO(ptrLista *Inicio)
 {
    ptrLista Borrame, Nuevo;
    
@@ -188,25 +181,19 @@ void Pop_LIFO(ptrLista *Inicio)
    Nuevo->Ant = NULL;
    Borrame = *Inicio;
    *Inicio = Nuevo;
-   free(Borrame);   
-}
-
-void Pop_FIFO(ptrLista *Inicio)
-{
-   ptrLista Borrame;
-   
-   Borrame = *Inicio;
-   *Inicio = (*Inicio)->Sig;
-   free(Borrame);
+   free(Borrame);  
 }
 
 void Show(ptrLista Inicio)
 {
+  if(Inicio == NULL)
+      printf("\nFIN de la lista\n");
   if(Inicio != NULL)
     {
-      printf("%d\n",Inicio->NUM);
+      printf("%d-",Inicio->NUM);
       Show(Inicio->Sig);
     }
+    printf("\n");
 }
 
 void Clear(ptrLista *Inicio)
@@ -233,15 +220,18 @@ int Size(ptrLista Inicio)
       Cont = Cont + 1;
     }
 
-   return Cont; 
+   return Cont+1; 
 }
 
 int Empty(ptrLista Inicio)
 {
+  int x=2;
   if(Inicio == NULL)
-      return 1;
+      x=1;
   else
-    return 0;
+    x=0;
+  printf("%d\n", x);
+  return x;
 }
 
 int Contains(ptrLista Inicio, int Numero)
