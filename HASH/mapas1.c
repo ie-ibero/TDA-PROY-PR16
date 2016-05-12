@@ -9,16 +9,15 @@
 *        equals, keySet, put, remove_entry, collection.
 *
 *@author Luis Armando Vizcaino Magdaleno
+*================================================================================
 */
-
-
 
 #include "bibliotecas.h"
 
 //FUNCIONES GENERALES DEL PROGRAMA
 extern void limpia(void);
 extern int ascii(char llave[]);
-extern void verificar(MAPA *nodo, MAPA *mapa[]);
+extern int verificar(MAPA *nodo, MAPA *mapa[]);
 
 //FUNCIONES DESARROLLADAS POR LUIS VIZCAINO
 int equals(MAPA *mapa1[], MAPA *mapa2[]); 
@@ -186,7 +185,6 @@ void keySet(MAPA *mapa[], MAPA **raiz)
 	}
 	return;
 }
-
 /**
  *================================================================================
  *@brief     Esta funcion ingresa un nuevo elemento dentro del mapa especificado,
@@ -205,6 +203,7 @@ void keySet(MAPA *mapa[], MAPA **raiz)
  *           i:     Contador de FOR.
  *           hash:  Valor de tabla hash del nuevo elemento.
  *           valor: Valor ascii de la llave del nuevo elemento.
+ *           veri:  Valor verificador de repetidos.
  *           comp:  Resultado de comparacion para el oder del mapa.
  *           *res:  Apuntador de resultado final de la funcion.
  *
@@ -214,13 +213,18 @@ void keySet(MAPA *mapa[], MAPA **raiz)
 char *put(MAPA *mapa[], char contenido[], char llave[])
 {
 	MAPA *nodo, *aux, *aux2;
-	int i, hash, valor, comp;
+	int i, hash, valor, comp, veri = 2;
 	char *res;
 	nodo = malloc(sizeof(MAPA));
 	strcpy(nodo->CONTENIDO,contenido);  //ASIGNACION DE CONTENIDO A NODO DE MAPA
 	strcpy(nodo->LLAVE,llave);  //ASIGNACION DE LLAVE A NODO DE MAPA
 	res = nodo->CONTENIDO; //VALOR DE RESPUESTA FINAL
-	verificar(nodo,mapa);  //VERIFICA QUE LA LLAVE SEA UNICA
+	veri = verificar(nodo,mapa);  //VERIFICA QUE LA LLAVE SEA UNICA
+	printf("\n\t%d\n",veri);
+	if(veri == 0)
+	{
+		return (res);
+	}
 	valor = ascii(llave);
 	hash = valor%T;
 	aux = mapa[hash];
@@ -273,6 +277,7 @@ char *put(MAPA *mapa[], char contenido[], char llave[])
 			}
 		}
 	}
+	return(res);
 }
 
 /**

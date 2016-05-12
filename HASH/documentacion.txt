@@ -1,6 +1,6 @@
 
 En esta carpeta se encuentran los modulos y archivos de todas las funciones y procedimientos
-para el manejo e implementacion de sistemas de mapas de java en C, las funciones estan 
+para la implementacion de sistemas de mapas o duplas en C, las funciones estan 
 formuladas para uso general y el listado de abajo determina que accion realiza cada una:
  
 	-limpia:        Limpia el buffer.
@@ -12,7 +12,9 @@ formuladas para uso general y el listado de abajo determina que accion realiza c
 	-put:           Ingresa un elemento nuevo a un mapa ingresado a la funcion y regresa
 			el contenido del elemento nuevo
 	-remove_entry:  Elimina un elemento de un mapa ingresado a la funcion  buscandolo por
-			su llave y regresa el contenido de este elemento.
+			su llave y regresa el contenido de este elemento, si no encuentra
+			el resultado a eliminar, regresa un mensaje indicando que la busqueda
+			no fue exitosa.
 	-collection:    Regresa el nodo raiz de una lista encadenada simple que contiene los 
 			elementos (contenido y llave) del mapa ingresado a la funcion.
 	-containsValue: Esta funcion busca un contenido especifico dentro del mapa y regresa
@@ -38,13 +40,14 @@ determinados por quien las llegue usar en el programa que deba usarlas.
 Los datos correspondientes a la funcionalidad, tipos de entradas y salidas de informacion de cada 
 funcion estan en sus documentaciones individuales.
 
-Las funciones se pueden encontrar en cada uno de los modulos correspondientes:
-	general: limpia,ascii,verificar	
-	mapas1:  equals,keySet,put,remove_entry,collection.
-	mapas2:  containsValue,entrySet,hashCode,isEmpty,putAll.
-	mapas2:  clear,containsKey,get,size.
+Las funciones se encuentran en cada uno de los modulos correspondientes:
+	general: limpia,ascii,verificar	(Luis Vizcaino)
+	mapas1:  equals,keySet,put,remove_entry,collection. (Leonardo Lael)
+	mapas2:  containsValue,entrySet,hashCode,isEmpty,putAll. (José Zaballa)
+	mapas3:  clear,containsKey,get,size.
 
 CREADO POR:
 	Luis Armando Vizcaino Magdaleno
+	Leonardo Lael Villar Benitez
 	José Antonio Sánchez Zaballa 
  

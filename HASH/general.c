@@ -27,6 +27,9 @@ void limpia(void)
  *================================================================================
  *@brief     Esta funcion tranforma una cadena de caracteres a la suma de los
  *           valores ascii de cada letra que contiene, luego, regresa dicho valor.
+ *           Esta funcion se usa para poder transformar una cadena de caracteres
+ *           a un valor numerico para que este pueda usarse en el calculo de su
+ *           codigo para la tabla hash.
  *
  *@entradas  char llave[]; Arreglo a tranformar.
  *
@@ -54,8 +57,10 @@ int ascii(char llave[])
  *================================================================================
  *@brief     Este procedimiento sirve como apoyo para la funcion "put", esta
  *           verifica que la llave ingresada para valor de nuevo elemento de un
- *           mapa sea unica, y en el caso de que sea repetida, sustiuye el valor
- *           previo del elemento por el nuevo ingresado.
+ *           mapa sea unica, y en el caso de que sea repetida, sustituye el valor
+ *           previo del elemento por el nuevo valor ingresado. Asi tambien regresa
+ *           0 si ya estaba repetida la llave y 1 si el valor es unico.
+ *
  *
  *@entradas  MAPA *nodo:   Elemento nuevo a ser comparado contra el resto de los 
  *                         elementos.
@@ -78,7 +83,7 @@ void verificar(MAPA *nodo, MAPA *mapa[])
 		{
 			if(strcmp(aux->LLAVE,nodo->LLAVE) == 0)  //VERIFICACION DE LA LLAVE
 			{
-				printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
+				printf("\n\tEsta clave ya fue usada... Sustituyendo valor\n\t");
 				printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
 				strcpy(aux->CONTENIDO,nodo->CONTENIDO);
 				return;
@@ -90,7 +95,7 @@ void verificar(MAPA *nodo, MAPA *mapa[])
 					aux = aux->sig;
 					if(strcmp(aux->LLAVE,nodo->LLAVE) == 0)
 					{
-						printf("\n\tEsta clave ya fue usada... Sustitullendo valor\n\t");
+						printf("\n\tEsta clave ya fue usada... Sustituyendo valor\n\t");
 						printf("\tVALOR ANTERIOR: %s\n",aux->CONTENIDO);
 						strcpy(aux->CONTENIDO,nodo->CONTENIDO);
 						return;
