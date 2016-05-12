@@ -18,7 +18,7 @@
 
 #include "biblioteca.h"
 
-void creaArbol(conjunto **ptr) {
+void creaConjunto(conjunto **ptr) {
 
 	//Inicializa arbol en 0
 	*ptr = NULL;
