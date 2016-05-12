@@ -14,7 +14,7 @@
 
 #include "biblioteca.h"
 
-char toArray(arbol *ptr, char array[]) {
+char toArray(conjunto *ptr, char array[]) {
     
     if (ptr != NULL) {
         toArray(ptr->izquierda, array);
@@ -22,7 +22,7 @@ char toArray(arbol *ptr, char array[]) {
         toArray(ptr->derecha, array);
         printf("%c\n", array);
     }
-    return TRUE;
+    return t;
 }
 
 /*funcion  clear.c
@@ -39,9 +39,8 @@ char toArray(arbol *ptr, char array[]) {
  *@autor     María Fernanda Corona Haneine
  */
 
-#include "biblioteca.h"
 
-void clear(arbol **ptr) {
+void clear(conjunto **ptr) {
     if(*ptr != NULL) {
         clear(&(*ptr)->derecha);
         clear(&(*ptr)->izquierda);
@@ -63,9 +62,8 @@ void clear(arbol **ptr) {
  *
  *@autor     María Fernanda Corona Haneine
  */
-#include "biblioteca.h"
 
-int size(arbol *ptr, int *count) {
+int size(conjunto *ptr, int *count) {
     
     if (ptr != NULL) {
         size(ptr->izquierda, count);
