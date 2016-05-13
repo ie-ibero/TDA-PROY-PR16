@@ -2,7 +2,11 @@
  *===============================================================================
  * @file      deque.h
  *
- * @brief     
+ * @brief     Biblioteca para la implementacion de funciones de listas dinamicas.
+ *			  Estructura para la creacion de listas.
+ *	
+ * @author	  Santiago Menendez Barrera
+ *			  Gerardo Blanco de Anzorena
  *
  *===============================================================================
  */
@@ -32,3 +36,7 @@ void Show(ptrLista Inicio);
 void Clear(ptrLista *Inicio);
 int Size(ptrLista Inicio);
 int Empty(ptrLista Inicio);
+int Contains(ptrLista Inicio, char cadena[]);
+char * Get(ptrLista Inicio, int Posicion);
+void Set(ptrLista Inicio, int Posicion, char cadena[]);
+void Push_Into(ptrLista *Inicio, int Posicion, char cadena[]);
