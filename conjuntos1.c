@@ -18,9 +18,9 @@ char toArray(conjunto *ptr, char array[]) {
     
     if (ptr != NULL) {
         toArray(ptr->izquierda, array);
-        strcat(array, &ptr->idArbol); //dato
+        strcat(array, ptr->idConjunto); //dato
         toArray(ptr->derecha, array);
-        printf("%c\n", array);
+        printf("%s\n", array);
     }
     return t;
 }
@@ -63,7 +63,7 @@ void clear(conjunto **ptr) {
  *@autor     María Fernanda Corona Haneine
  */
 
-int size(conjunto *ptr, int *count) {
+void size(conjunto *ptr, int *count) {
     
     if (ptr != NULL) {
         size(ptr->izquierda, count);

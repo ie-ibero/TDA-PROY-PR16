@@ -1,0 +1,25 @@
+Un conjunto es una colección de elementos considerada en sí misma como un objeto. Los elementos de un conjunto, pueden ser las siguientes: personas, números, colores, letras, figuras, etc. Se dice que un elemento (o miembro) pertenece al conjunto si está definido como incluido de algún modo dentro de él.
+
+En este archivo se describen las funciones que se usan en conjuntos:
+
+- toArray:  Nos devuelve la colección de elementos como un array de objetos.
+
+- verConjunto: Imprime los valores del conjunto.
+
+- size: Nos devuelve el número de elementos que contiene la colección.
+
+- removes: Elimina un determinado elemento (objeto) de la coleccion. Devuelve valor 			despues de la operacion.
+
+- creaConjunto: Se crea el arbol de acuerdo a la estructura llamada arbol, esta la obtiene 		de biblioteca.h e inicializa su puntero en 0. Recibe valor del puntero.
+
+- contains: Muestra si los elementos pertenecen al conjunto. Devuelve true si se 			encuentra o false si no.
+
+- clear:  Libera el espacio de memoria ocupado por el arbol al final de la ejecucion.
+
+- addAll: Se añaden elementos al final del conjunto conforme el usuario ingrese valores 		para cada nodo.
+
+El sistema de conjuntos funciona mediante el uso de arboles binarios, los cuales deberán de ser inicializados por el usuario.
+
+Creado por:
+	Avila Cortes Karina
+	Corona Haneine Ma. Fernanda

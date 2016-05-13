@@ -44,7 +44,7 @@ void addAll(conjunto **ptr, char elemento[]) {
     //Si el puntero esta vacio, se crea el arbol.
     if (*ptr == NULL) {
         *ptr = (conjunto *) malloc(sizeof(conjunto));
-        strcmp(((*ptr)->idConjunto, elemento)=0));
+        strcpy((*ptr)->idConjunto, elemento);
         //Asegura ramas igual a null.
         (*ptr)->izquierda = (*ptr)->derecha = NULL;
     }
@@ -53,7 +53,7 @@ void addAll(conjunto **ptr, char elemento[]) {
         addAll(&(*ptr)->derecha, elemento);
     }
     //permite que se repitan los elementos
-    else if (strcmp((*ptr)->idConjunto,elemento)=0) {
+    else if (strcmp((*ptr)->idConjunto, elemento)==0) {
         //addAll(&(*ptr)->derecha, elemento);
         printf("Error: Este valor ya existe.\n");
     }
@@ -85,7 +85,7 @@ void cambioNodo(conjunto **ptr, conjunto **auxiliar) {
         cambioNodo(&(*ptr)->derecha, auxiliar);
     }
     else {
-        (*auxiliar)->idArbol = (*ptr)->idArbol;
+        strcpy((*auxiliar)->idConjunto , (*ptr)->idConjunto);
         *auxiliar = *ptr;
         *ptr = (*ptr)->izquierda;
     }
@@ -118,7 +118,7 @@ int contains(conjunto *ptr, char elemento[]) {
     int contadorRamas_izq = 0;
     
     if (ptr == NULL) {
-        printf("No existe en el arbol\n");
+        //printf("No existe en el arbol\n");
         return f; //No existe elemento en el arbol
     }
     
@@ -132,7 +132,7 @@ int contains(conjunto *ptr, char elemento[]) {
         return contains(ptr->izquierda, elemento);
     }
     else {
-        printf("Existe %c\n", elemento);
+        //printf("Existe %s\n", elemento);
         return t;
     }
 }
@@ -155,23 +155,21 @@ int contains(conjunto *ptr, char elemento[]) {
  *@autor     Avila Cortes Karina
  */
 
-extern void cambioNodo(conjunto **ptr, conjunto **auxiliar);
-
 void removes(conjunto **ptr, char elemento) {
     
-    arbol *auxiliar;
+    conjunto *auxiliar;
     
     if (*ptr == NULL) {
         return;
     }
     
-    if (strcmp((*ptr)->idConjunto , elemento)<0) {
+    if (strcmp((*ptr)->idConjunto , &elemento)<0) {
         removes(&(*ptr)->derecha, elemento);
     }
-    else if (strcmp((*ptr)->idConjunto , elemento)>0) {
+    else if (strcmp((*ptr)->idConjunto , &elemento)>0) {
         removes(&(*ptr)->izquierda, elemento);
     }
-    else if (strcmp((*ptr)->idConjunto , elemento)=0) {
+    else if (strcmp((*ptr)->idConjunto , &elemento)==0) {
         auxiliar = *ptr;
         
         if ((*ptr)->izquierda == NULL) {
@@ -206,8 +204,8 @@ void removes(conjunto **ptr, char elemento) {
 void verConjunto(conjunto *ptr) {
     
     if (ptr != NULL) {
-        printf("%c\n", ptr->idConjunto); //dato
         verConjunto(ptr->izquierda);
+        printf("%s\n", ptr->idConjunto); //dato
         verConjunto(ptr->derecha);
     }
 }
